@@ -3,23 +3,37 @@ import config from '../config';
 import AppError from '../errors/appError';
 import httpStatus from 'http-status';
 import { Prisma } from '@prisma/client';
+import { ZodError, ZodIssue } from 'zod';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  const statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+  let statusCode;
   let message = err.message || 'Something went wrong!';
   let error = err;
 
   // Prisma validation error (usually thrown for invalid data formats)
   if (err instanceof Prisma.PrismaClientValidationError) {
+    statusCode = httpStatus.INTERNAL_SERVER_ERROR;
     message = 'Validation Error';
     error = err.message;
   } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
     // Prisma error code 'P2002' indicates a unique constraint violation (duplicate key error)
     if (err.code === 'P2002') {
+      statusCode = httpStatus.BAD_REQUEST;
       message = 'Duplicate Key error';
       error = err.meta;
     }
+  }
+  // Zod Validation Error
+  else if (err instanceof ZodError) {
+    statusCode = httpStatus.BAD_REQUEST;
+    message = 'Zod Validation Error';
+    error = err.issues.map((issue: ZodIssue) => {
+      return {
+        path: issue?.path[issue.path.length - 1],
+        message: issue?.message,
+      };
+    });
   }
   // throw new AppError validation
   else if (err instanceof AppError) {
@@ -27,7 +41,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     error = err.message;
   }
 
-  return res.status(statusCode).json({
+  return res.status(statusCode ?? httpStatus.INTERNAL_SERVER_ERROR).json({
     success: false,
     message,
     error,
