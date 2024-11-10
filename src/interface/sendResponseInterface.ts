@@ -10,5 +10,5 @@ export type TResponse<T> = {
   status: number;
   message?: string;
   meta?: TMeta;
-  data: T;
+  data?: T;
 };

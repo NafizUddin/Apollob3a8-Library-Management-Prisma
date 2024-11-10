@@ -11,16 +11,16 @@ router.post(
   bookControllers.createBooks,
 );
 
-// router.get('/:id', bookControllers.getSingleBook);
+router.get('/:bookId', bookControllers.getSingleBook);
 
-// router.put(
-//   '/:id',
-//   validateRequest(bookValidations.updateBookValidationSchema),
-//   bookControllers.updateBook,
-// );
+router.put(
+  '/:bookId',
+  validateRequest(bookValidations.updateBookValidationSchema),
+  bookControllers.updateBook,
+);
 
-// router.delete('/:id', bookControllers.deleteBook);
+router.delete('/:bookId', bookControllers.deleteBook);
 
-// router.get('/', bookControllers.getAllBooks);
+router.get('/', bookControllers.getAllBooks);
 
 export const BookRoutes = router;

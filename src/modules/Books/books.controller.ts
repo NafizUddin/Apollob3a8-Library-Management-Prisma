@@ -14,78 +14,77 @@ const createBooks = catchAsync(async (req, res) => {
   });
 });
 
-// const getAllBooks = catchAsync(async (req, res) => {
-//   const result = await ServicesOfCarService.getAllServicesFromDB(req.query);
+const getAllBooks = catchAsync(async (req, res) => {
+  const result = await bookServices.getAllBooksFromDB();
 
-//   if (result === null) {
-//     return sendResponse(res, {
-//       success: false,
-//       statusCode: httpStatus.NOT_FOUND,
-//       message: 'No Data Found',
-//       data: [],
-//     });
-//   }
+  if (result === null) {
+    return sendResponse(res, {
+      success: false,
+      status: httpStatus.NOT_FOUND,
+      message: 'No Data Found',
+      data: [],
+    });
+  }
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: httpStatus.OK,
-//     message: 'Services retrieved successfully',
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    success: true,
+    status: httpStatus.OK,
+    message: 'Books retrieved successfully',
+    data: result,
+  });
+});
 
-// const getSingleBook = catchAsync(async (req, res) => {
-//   const id = req.params.id;
+const getSingleBook = catchAsync(async (req, res) => {
+  const { bookId } = req.params;
 
-//   const result = await ServicesOfCarService.getSingleServiceFromDB(id);
+  const result = await bookServices.getSingleBookFromDB(bookId);
 
-//   if (result === null) {
-//     return sendResponse(res, {
-//       success: false,
-//       statusCode: httpStatus.NOT_FOUND,
-//       message: 'No Data Found!',
-//       data: [],
-//     });
-//   }
+  if (result === null) {
+    return sendResponse(res, {
+      success: false,
+      status: httpStatus.NOT_FOUND,
+      message: 'No Data Found!',
+      data: [],
+    });
+  }
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: httpStatus.OK,
-//     message: 'Service retrieved successfully',
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    success: true,
+    status: httpStatus.OK,
+    message: 'Book retrieved successfully',
+    data: result,
+  });
+});
 
-// const updateBook = catchAsync(async (req, res) => {
-//   const id = req.params.id;
+const updateBook = catchAsync(async (req, res) => {
+  const { bookId } = req.params;
 
-//   const result = await ServicesOfCarService.updateServiceIntoDB(req.body, id);
+  const result = await bookServices.updateBookIntoDB(req.body, bookId);
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: httpStatus.OK,
-//     message: 'Service updated successfully',
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    success: true,
+    status: httpStatus.OK,
+    message: 'Book updated successfully',
+    data: result,
+  });
+});
 
-// const deleteBook = catchAsync(async (req, res) => {
-//   const id = req.params.id;
+const deleteBook = catchAsync(async (req, res) => {
+  const { bookId } = req.params;
 
-//   const result = await ServicesOfCarService.deleteServiceFromDB(id);
+  const result = await bookServices.deleteBookFromDB(bookId);
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: httpStatus.OK,
-//     message: 'Service deleted successfully',
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    success: true,
+    status: httpStatus.OK,
+    message: 'Book successfully deleted',
+  });
+});
 
 export const bookControllers = {
   createBooks,
-  //   getAllBooks,
-  //   getSingleBook,
-  //   updateBook,
-  //   deleteBook,
+  getAllBooks,
+  getSingleBook,
+  updateBook,
+  deleteBook,
 };
