@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
@@ -11,6 +13,16 @@ const borrowBooks = catchAsync(async (req, res) => {
     status: httpStatus.OK,
     message: 'Book borrowed successfully',
     data: result,
+  });
+});
+
+const returnBooks = catchAsync(async (req, res) => {
+  const result = await borrowServices.returnBooksToDB(req.body);
+
+  sendResponse(res, {
+    success: true,
+    status: httpStatus.OK,
+    message: 'Book returned successfully',
   });
 });
 
@@ -36,5 +48,6 @@ const getOverdueBorrowList = catchAsync(async (req, res) => {
 
 export const borrowControllers = {
   borrowBooks,
+  returnBooks,
   getOverdueBorrowList,
 };

@@ -17,6 +17,18 @@ const createBorrowBookValidationSchema = z.object({
   }),
 });
 
+const returnBookValidationSchema = z.object({
+  body: z.object({
+    borrowId: z
+      .string({
+        required_error: 'Borrow Id is required',
+        invalid_type_error: 'Borrow Id must be a string',
+      })
+      .trim(),
+  }),
+});
+
 export const borrowBookValidations = {
   createBorrowBookValidationSchema,
+  returnBookValidationSchema,
 };
