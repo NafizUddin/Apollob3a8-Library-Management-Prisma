@@ -16,6 +16,7 @@ async function main() {
     }
     process.exit(1);
   };
+
   process.on('uncaughtException', (error) => {
     console.log(error);
     exitHandler();
