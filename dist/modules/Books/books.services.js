@@ -46,9 +46,14 @@ const deleteBookFromDB = (bookId) => __awaiter(void 0, void 0, void 0, function*
     yield prisma_1.default.book.findUniqueOrThrow({
         where: { bookId },
     });
-    const result = yield prisma_1.default.book.delete({
-        where: { bookId },
-    });
+    const result = yield prisma_1.default.$transaction((tx) => __awaiter(void 0, void 0, void 0, function* () {
+        yield tx.borrowRecord.deleteMany({
+            where: { bookId },
+        });
+        return yield tx.book.delete({
+            where: { bookId },
+        });
+    }));
     return result;
 });
 exports.bookServices = {

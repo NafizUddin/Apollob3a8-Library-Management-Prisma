@@ -46,9 +46,14 @@ const deleteMemberFromDB = (memberId) => __awaiter(void 0, void 0, void 0, funct
     yield prisma_1.default.member.findUniqueOrThrow({
         where: { memberId },
     });
-    const result = yield prisma_1.default.member.delete({
-        where: { memberId },
-    });
+    const result = yield prisma_1.default.$transaction((tx) => __awaiter(void 0, void 0, void 0, function* () {
+        yield tx.borrowRecord.deleteMany({
+            where: { memberId },
+        });
+        return yield tx.member.delete({
+            where: { memberId },
+        });
+    }));
     return result;
 });
 exports.memberServices = {

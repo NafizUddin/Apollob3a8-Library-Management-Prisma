@@ -8,7 +8,7 @@
 
 ## :computer: Server Live Link
 
-Click here to see the Server Side Live Link: [https://apollob3a8-library-management-prisma.onrender.com](https://apollob3a8-library-management-prisma.onrender.com)
+Click here to see the Server Side Live Link: [https://assignment-08-library-management-system-prisma.vercel.app](https://assignment-08-library-management-system-prisma.vercel.app)
 
 ## :sparkle: Project Features
 
